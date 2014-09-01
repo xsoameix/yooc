@@ -1,0 +1,13 @@
+# Compiled things
+src/libyooc.a
+src/examples
+tests/test_yooc
+
+# Build files
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+
+# Vim editor
+*.swp
