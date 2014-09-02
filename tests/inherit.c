@@ -1,42 +1,40 @@
 #include <check.h>
 #include "inherit.h"
 
-class_parent_t Parent;
+#define o_class_type class_parent_t
+#define o_instance_type parent_t
+
+o_class_type Parent;
 
 static char *
-parent_method_foo(void) {
+parent_method_foo(o_instance_type * self) {
   return "Parent#foo";
 }
 
 void
 init_parent_class(void) {
   o_init_object_class();
-  size_t class_size = sizeof(class_parent_t);
-  size_t instance_size = sizeof(parent_t);
-  o_method_t methods[] = {
-    {offsetof(class_parent_t, foo),        parent_method_foo}
-  };
-  size_t methods_len = sizeof(methods) / sizeof(o_method_t);
-  o_init_class((void *) &Parent, &OObject, "Parent", class_size, instance_size, methods_len, methods);
+  o_define_superclass(Parent, OObject);
+  o_define_method(Parent, foo, parent_method_foo);
 }
 
-class_child_t Child;
+#undef o_class_type
+#undef o_instance_type
+#define o_class_type class_child_t
+#define o_instance_type child_t
+
+o_class_type Child;
 
 static char *
-child_method_foo(void) {
+child_method_foo(o_instance_type * self) {
   return "Child#foo";
 }
 
 void
 init_child_class(void) {
   init_parent_class();
-  size_t class_size = sizeof(class_child_t);
-  size_t instance_size = sizeof(child_t);
-  o_method_t methods[] = {
-    {offsetof(class_child_t, foo),        child_method_foo}
-  };
-  size_t methods_len = sizeof(methods) / sizeof(o_method_t);
-  o_init_class((void *) &Child, (void *) &Parent, "Child", class_size, instance_size, methods_len, methods);
+  o_define_superclass(Child, Parent);
+  o_define_method(Child, foo, child_method_foo);
 }
 
 START_TEST(inherit) {
