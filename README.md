@@ -11,11 +11,12 @@ Initialize Object class
 Usage
 
     // foo is an instance of Object class.
-    o_object_t foo = {&OObject};
+    o_object_t * foo = OObject.new();
     printf("foo.class_name()\n => %s\n",
-           OObject.class_name(&foo));
+           foo->class->class_name(foo));
     // foo.class_name()
     //  => Object
+    foo->class->delete(foo);
 
 ## String
 
@@ -26,28 +27,28 @@ Initialize String class
 Usage
 
     // bar is an instance of String class.
-    o_string_t bar = {&OString, "bar"};
+    o_string_t * bar = OString.new("bar");
     printf("bar.class_name()\n => %s\n",
-           OString.class_name(&bar));
+           bar->class->class_name(bar));
     printf("bar.string()\n => %s\n",
-           OString.string(&bar));
+           bar->class->string(bar));
     // bar.class_name()
     //  => String
     // bar.string()
     //  => bar
+    bar->class->delete(bar);
 
-    // 'a' is allocated by malloc.
-    o_string_t * a = OString.new(&OString, "a");
-    printf("a.class()\n => %s\n",
-           OString.class(a)->class_name(a));
+    o_string_t * a = OString.new("a");
+    printf("a.class()\n => %p\n",
+           a->class->class(a));
     printf("a.string()\n => %s\n",
-           OString.string(a));
+           a->class->string(a));
     printf("a.len()\n => %zu\n",
-           OString.len(a));
-    OString.delete(a);
+           a->class->len(a));
     // a.class()
-    //  => String
+    //  => 0x602080
     // a.string()
     //  => a
     // a.len()
     //  => 1
+    a->class->delete(a);
