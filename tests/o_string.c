@@ -4,7 +4,7 @@
 #include "o_string.h"
 
 START_TEST(o_string_new) {
-  o_string_t * foo = OString.new(&OString, "foo");
+  o_string_t * foo = OString.new("foo");
   ck_assert(strcmp(OString.string(foo), "foo") == 0);
   OString.delete(foo);
 } END_TEST
@@ -15,13 +15,13 @@ START_TEST(o_string_static_new) {
 } END_TEST
 
 START_TEST(o_string_class_name) {
-  o_string_t * foo = OString.new(&OString, "foo");
+  o_string_t * foo = OString.new("foo");
   ck_assert(strcmp(OString.class_name(foo), "OString") == 0);
   OString.delete(foo);
 } END_TEST
 
 START_TEST(o_string_len) {
-  o_string_t * foo = OString.new(&OString, "foo");
+  o_string_t * foo = OString.new("foo");
   ck_assert(OString.len(foo) == strlen("foo"));
   OString.delete(foo);
 } END_TEST

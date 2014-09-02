@@ -4,7 +4,7 @@
 #include "o_object.h"
 
 START_TEST(o_object_new) {
-  o_object_t * foo = OObject.new(&OObject);
+  o_object_t * foo = OObject.new();
   ck_assert(OObject.class(foo) == &OObject);
   OObject.delete(foo);
 } END_TEST
@@ -15,8 +15,8 @@ START_TEST(o_object_static_new) {
 } END_TEST
 
 START_TEST(o_object_class_name) {
-  o_object_t * foo = OObject.new(&OObject);
-  ck_assert(strcmp(OObject.class_name(foo), "Object") == 0);
+  o_object_t * foo = OObject.new();
+  ck_assert(strcmp(OObject.class_name(foo), "OObject") == 0);
   OObject.delete(foo);
 } END_TEST
 
