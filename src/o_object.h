@@ -12,8 +12,8 @@ typedef struct o_object o_object_t;
   char * name; \
   size_t size; \
   size_t instance_size
-#define o_class_object_new(instance_type, ...) \
-  instance_type * (* new)       (__VA_ARGS__)
+#define o_class_object_new(class_type, instance_type, ...) \
+  instance_type * (* new)       (class_type * class, ##__VA_ARGS__)
 #define o_class_object_methods(class_type, instance_type) \
   void            (* delete)    (instance_type * self); \
   class_type *    (* class)     (instance_type * self); \
@@ -22,7 +22,7 @@ typedef struct o_object o_object_t;
 struct o_class_object {
   o_class_object_super(o_class_object_t);
   o_class_object_variables();
-  o_class_object_new(o_object_t, o_class_object_t * class);
+  o_class_object_new(o_class_object_t, o_object_t);
   o_class_object_methods(o_class_object_t, o_object_t);
 };
 

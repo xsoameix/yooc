@@ -38,12 +38,14 @@ o_all_suite(void) {
 }
 
 Suite * o_string_suite(void);
+Suite * inherit_suite(void);
 
 int
 main(void) {
   SRunner * runner = srunner_create(o_all_suite());
   srunner_add_suite(runner, o_object_suite());
   srunner_add_suite(runner, o_string_suite());
+  srunner_add_suite(runner, inherit_suite());
   srunner_run_all(runner, CK_NORMAL);
   size_t failed = srunner_ntests_failed(runner);
   srunner_free(runner);
