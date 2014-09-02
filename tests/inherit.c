@@ -2,16 +2,10 @@
 #include "inherit.h"
 
 class_parent_t Parent;
-class_child_t Child;
 
 static char *
 parent_method_foo(void) {
   return "Parent#foo";
-}
-
-static char *
-child_method_foo(void) {
-  return "Child#foo";
 }
 
 void
@@ -24,6 +18,13 @@ init_parent_class(void) {
   };
   size_t methods_len = sizeof(methods) / sizeof(o_method_t);
   o_init_class((void *) &Parent, &OObject, "Parent", class_size, instance_size, methods_len, methods);
+}
+
+class_child_t Child;
+
+static char *
+child_method_foo(void) {
+  return "Child#foo";
 }
 
 void

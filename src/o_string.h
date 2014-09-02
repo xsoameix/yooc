@@ -3,33 +3,40 @@
 
 #include "o_object.h"
 
-typedef struct o_class_string o_class_string_t;
-typedef struct o_string o_string_t;
+#define o_super_class_type o_class_object_t
+#define o_class_type o_class_string_t
+#define o_instance_type o_string_t
 
-#define o_class_string_new(class_type, instance_type, ...) \
-  o_class_object_new(class_type, instance_type, ##__VA_ARGS__)
-#define o_class_string_methods(class_type, instance_type) \
-  o_class_object_methods(class_type, instance_type); \
-  char * (* string)(instance_type * self); \
-  size_t (* len)   (instance_type * self)
+typedef struct o_class_string o_class_type;
+typedef struct o_string o_instance_type;
+
+#define o_class_string_new(...) \
+  o_class_object_new(__VA_ARGS__)
+#define o_class_string_methods() \
+  o_class_object_methods(); \
+  char * (* string)(o_instance_type * self); \
+  size_t (* len)   (o_instance_type * self)
 
 struct o_class_string {
-  o_class_object_super(o_class_object_t);
   o_class_object_variables();
-  o_class_string_new(o_class_string_t, o_string_t, char * value);
-  o_class_string_methods(o_class_string_t, o_string_t);
+  o_class_string_new(char * value);
+  o_class_string_methods();
 };
 
-extern o_class_string_t OString;
+extern o_class_type OString;
 
-#define o_string_instance_variables(class_type) \
-  o_object_instance_variables(class_type); \
+#define o_string_instance_variables() \
+  o_object_instance_variables(); \
   char * string
 
 struct o_string {
-  o_string_instance_variables(o_class_string_t);
+  o_string_instance_variables();
 };
 
 void o_init_string_class(void);
+
+#undef o_super_class_type
+#undef o_class_type
+#undef o_instance_type
 
 #endif

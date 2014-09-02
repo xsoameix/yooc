@@ -2,55 +2,67 @@
 #define INHERIT_H
 
 #include "o_object.h"
+#define o_super_class_type o_class_object_t
+#define o_class_type class_parent_t
+#define o_instance_type parent_t
 
-typedef struct class_parent class_parent_t;
-typedef struct parent parent_t;
+typedef struct class_parent o_class_type;
+typedef struct parent o_instance_type;
 
-#define class_parent_new(class_type, instance_type, ...) \
-    o_class_object_new(class_type, instance_type, ##__VA_ARGS__)
-#define class_parent_methods(class_type, instance_type) \
-    o_class_object_methods(class_type, instance_type); \
-    char * (* foo)(instance_type * self)
+#define class_parent_new(...) \
+    o_class_object_new(__VA_ARGS__)
+#define class_parent_methods() \
+    o_class_object_methods(); \
+    char * (* foo)(o_instance_type * self)
 
 struct class_parent {
-    o_class_object_super(o_class_object_t);
     o_class_object_variables();
-    class_parent_new(class_parent_t, parent_t);
-    class_parent_methods(class_parent_t, parent_t);
+    class_parent_new();
+    class_parent_methods();
 };
 
-extern class_parent_t Parent;
+extern o_class_type Parent;
 
-typedef struct class_child class_child_t;
-typedef struct child child_t;
-
-#define class_child_new(class_type, instance_type, ...) \
-    o_class_object_new(class_type, instance_type, ##__VA_ARGS__)
-#define class_child_methods(class_type, instance_type) \
-    o_class_object_methods(class_type, instance_type); \
-    char * (* foo)(instance_type * self)
-
-struct class_child {
-    o_class_object_super(class_parent_t);
-    o_class_object_variables();
-    class_child_new(class_child_t, child_t);
-    class_child_methods(class_child_t, child_t);
-};
-
-extern class_child_t Child;
-
-#define parent_instance_variables(class_type) \
-    o_object_instance_variables(class_type)
+#define parent_instance_variables() \
+    o_object_instance_variables()
 
 struct parent {
-    parent_instance_variables(class_parent_t);
+    parent_instance_variables();
 };
 
-#define child_instance_variables(class_type) \
-    o_object_instance_variables(class_type)
+#undef o_super_class_type
+#undef o_class_type
+#undef o_instance_type
+#define o_super_class_type class_parent_t
+#define o_class_type class_child_t
+#define o_instance_type child_t
+
+typedef struct class_child o_class_type;
+typedef struct child o_instance_type;
+
+#define class_child_new(...) \
+    o_class_object_new(__VA_ARGS__)
+#define class_child_methods() \
+    o_class_object_methods(); \
+    char * (* foo)(o_instance_type * self)
+
+struct class_child {
+    o_class_object_variables();
+    class_child_new();
+    class_child_methods();
+};
+
+extern o_class_type Child;
+
+#define child_instance_variables() \
+    o_object_instance_variables()
 
 struct child {
-    child_instance_variables(class_child_t);
+    child_instance_variables();
 };
+
+#undef o_super_class_type
+#undef o_class_type
+#undef o_instance_type
 
 #endif
