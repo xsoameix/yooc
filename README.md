@@ -1,4 +1,12 @@
-# Yet another object oriented library for C.
+# Yet another light weight object oriented library for C.
+
+Supported features:
+
+*   Encapsulation
+*   Inheritance
+*   Polymorphism
+
+Module (like ruby mixin) are in planning.
 
 # Avaiable Classes
 
