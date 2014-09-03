@@ -1,9 +1,12 @@
 #include <check.h>
-#include "implementations.h"
+#include <stdio.h>
+#include "interface_instance.h"
 
 #define o_class Rectangle
 #define o_class_type class_rectangle_t
 #define o_instance_type rectangle_t
+
+void * Shape;
 
 o_class_type o_class;
 
@@ -19,14 +22,15 @@ rectangle_method_initialize(o_instance_type * self, size_t w, size_t h) {
 }
 
 static size_t
-rectangle_method_area(o_instance_type * self) {
-  return self->w * self->h;
+rectangle_method_area(shape_t * self) {
+  return self->rectangle.w * self->rectangle.h;
 }
 
 void
 init_rectangle_class(void) {
   o_init_object_class();
   o_define_superclass(OObject);
+  o_implements(Shape);
   o_define_method(new,        rectangle_method_new);
   o_define_method(initialize, rectangle_method_initialize);
   o_define_method(area,       rectangle_method_area);
@@ -52,24 +56,25 @@ square_method_initialize(o_instance_type * self, size_t w) {
 }
 
 static size_t
-square_method_area(o_instance_type * self) {
-  return self->w * self->w;
+square_method_area(shape_t * self) {
+  return self->square.w * self->square.w;
 }
 
 void
 init_square_class(void) {
   o_init_object_class();
   o_define_superclass(OObject);
+  o_implements(Shape);
   o_define_method(new,        square_method_new);
   o_define_method(initialize, square_method_initialize);
   o_define_method(area,       square_method_area);
 }
 
 START_TEST(interface) {
-  rectangle_t * rectangle = Rectangle.new(2, 10);
-  ck_assert(rectangle->class->area(rectangle) == 20);
-  square_t * square = Square.new(2);
-  ck_assert(square->class->area(square) == 4);
+  shape_t * rectangle = (shape_t *) Rectangle.new(2, 10);
+  ck_assert(o_interface_shape_of(rectangle)->area(rectangle) == 20);
+  shape_t * square = (shape_t *) Square.new(2);
+  ck_assert(o_interface_shape_of(square)->area(square) == 4);
   Rectangle.delete(rectangle);
   Square.delete(square);
 } END_TEST

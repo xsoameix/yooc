@@ -21,6 +21,8 @@
 #define o_define_superclass__(class_name, superclass_name) \
   o_init_class((void *) &class_name, (void *) &superclass_name, #class_name, \
                sizeof(o_class_type), sizeof(o_instance_type))
+#define o_implements(interface_name) \
+  o_class.interface_ ## interface_name = &interface_name
 #define o_define_method(method_name, func_name) \
   o_class.method_name = func_name;
 
@@ -44,6 +46,10 @@ typedef struct o_object o_instance_type;
   o_class_type *    (* class)     (o_instance_type * self); \
   char *            (* class_name)(o_instance_type * self); \
   bool              (* is_a)      (o_instance_type * self, o_class_type * class)
+#define o_interface_variables(interface_name) \
+  o_interface_variables_(interface_name)
+#define o_interface_variables_(interface_name) \
+  void * interface_ ## interface_name
 
 struct o_class_object {
   o_class_object_variables();
@@ -65,9 +71,10 @@ typedef struct o_method {
   void * ptr;
 } o_method_t;
 
-void o_init_class(o_class_type * class, o_class_type * super, char * class_name,
-        size_t class_size, size_t instance_size);
-void o_init_object_class(void);
+void   o_init_class(o_class_type * class, o_class_type * super,
+        char * class_name, size_t class_size, size_t instance_size);
+void   o_init_object_class(void);
+void * o_get_interface(o_instance_type * instance, void * interface);
 
 #undef o_super_class_type
 #undef o_class_type

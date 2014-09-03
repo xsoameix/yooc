@@ -2,7 +2,6 @@
 #define INHERIT_H
 
 #include "o_object.h"
-#include "interface.h"
 
 #define o_super_class_type o_class_object_t
 #define o_class_type class_parent_t

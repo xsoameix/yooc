@@ -59,12 +59,15 @@ o_init_class(o_class_type * class, o_class_type * super, char * class_name,
   }
 }
 
-void
-o_include_method(o_class_type * class, o_method_t * method) {
-  void ** class_methods = (void *) class + method->offset;
-  if (* class_methods != NULL) {
-    * class_methods = method->ptr;
+void *
+o_get_interface(o_instance_type * instance, void * interface) {
+  size_t offset = offsetof(o_class_type, new);
+  size_t methods_len = (instance->class->size - offset) / sizeof(void *);
+  void ** methods = (void *) instance->class + offset;
+  for (size_t i = 0; i < methods_len; i++) {
+    if (methods[i] == interface) return &methods[i];
   }
+  return NULL;
 }
 
 void
