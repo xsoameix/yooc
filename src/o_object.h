@@ -60,7 +60,10 @@ struct o_class_object {
 extern o_class_type OObject;
 
 #define o_object_instance_variables() \
-  o_class_type * class
+  union { \
+    o_class_type * class; \
+    o_class_type * _; \
+  }
 
 struct o_object {
   o_object_instance_variables();
