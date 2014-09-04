@@ -6,8 +6,6 @@ Supported features:
 *   Inheritance
 *   Polymorphism
 
-Module (like ruby mixin) are in planning.
-
 # Avaiable Classes
 
 ## Object
@@ -60,3 +58,13 @@ Usage
     // a.len()
     //  => 1
     a->class->delete(a);
+
+# Development
+
+Build libyooc.a and tests
+
+    make
+
+Run coverage
+
+    make yooc_coverage

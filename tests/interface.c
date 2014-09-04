@@ -75,8 +75,8 @@ START_TEST(interface) {
   ck_assert(o_interface_shape_of(rectangle)->area(rectangle) == 20);
   shape_t * square = (shape_t *) Square.new(2);
   ck_assert(o_interface_shape_of(square)->area(square) == 4);
-  Rectangle.delete(rectangle);
-  Square.delete(square);
+  OObject.delete((o_object_t *) rectangle);
+  OObject.delete((o_object_t *) square);
 } END_TEST
 
 Suite *
