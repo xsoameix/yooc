@@ -6,6 +6,26 @@ Supported features:
 *   Inheritance
 *   Polymorphism
 
+# Basic Syntax
+
+    instance->_->method(instance, arg1, arg2, ...);
+
+Examples:
+
+    array->_->len(array);
+    hash->_->set(hash, key, value);
+
+# Underscore Syntax
+
+    #define _(instance, method, ...) instance->_->method(instance, ## __VA_ARGS__)
+
+    _(instance, method, arg1, arg2, ...);
+
+Examples:
+
+    _(array, len);
+    _(hash, set, key, value);
+
 # Avaiable Classes
 
 ## Object
@@ -16,13 +36,17 @@ Initialize Object class
 
 Usage
 
-    // foo is an instance of Object class.
-    o_object_t * foo = OObject.new();
-    printf("foo.class_name()\n => %s\n",
-           foo->_->class_name(foo));
-    // foo.class_name()
-    //  => Object
-    foo->_->delete(foo);
+*   Create an instance from `Object` class.
+
+        o_object_t * foo = OObject.new();
+
+*   Call `class_name` method of foo.
+
+        puts(_(foo, class_name)); // => OObject
+
+*   Delete this instance.
+
+        _(foo, delete);
 
 ## String
 
@@ -32,32 +56,19 @@ Initialize String class
 
 Usage
 
-    // bar is an instance of String class.
-    o_string_t * bar = OString.new("bar");
-    printf("bar.class_name()\n => %s\n",
-           bar->_->class_name(bar));
-    printf("bar.string()\n => %s\n",
-           bar->_->string(bar));
-    // bar.class_name()
-    //  => String
-    // bar.string()
-    //  => bar
-    bar->_->delete(bar);
+*   Create an instance from `String` class.
 
-    o_string_t * a = OString.new("a");
-    printf("a.class()\n => %p\n",
-           a->_->class(a));
-    printf("a.string()\n => %s\n",
-           a->_->string(a));
-    printf("a.len()\n => %zu\n",
-           a->_->len(a));
-    // a.class()
-    //  => 0x602080
-    // a.string()
-    //  => a
-    // a.len()
-    //  => 1
-    a->_->delete(a);
+        o_string_t * bar = OString.new("bar");
+
+*   Call `class_name`, `string`, and `len` methods of foo.
+
+        puts(_(bar, class_name)); // => OString
+        puts(_(bar, string));     // => bar
+        printf("%zu", _(bar, len)); // => 3
+
+*   Delete this instance.
+
+        _(bar, delete);
 
 # Development
 

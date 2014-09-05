@@ -1,28 +1,29 @@
 #include <stdio.h>
 #include "o_string.h"
+#define _(instance, method, ...) instance->_->method(instance, ## __VA_ARGS__)
 
 int
 main(void) {
   o_init_string_class();
   o_object_t * foo = OObject.new();
   printf("foo.class_name()\n => %s\n",
-         foo->_->class_name(foo));
-  foo->_->delete(foo);
+         _(foo, class_name));
+  _(foo, delete);
 
   o_string_t * bar = OString.new("bar");
   printf("bar.class_name()\n => %s\n",
-         bar->_->class_name(bar));
+         _(bar, class_name));
   printf("bar.string()\n => %s\n",
-         bar->_->string(bar));
-  bar->_->delete(bar);
+         _(bar, string));
+  _(bar, delete);
 
   o_string_t * a = OString.new("a");
   printf("a.class()\n => %p\n",
-         a->_->class(a));
+         _(a, class));
   printf("a.string()\n => %s\n",
-         a->_->string(a));
+         _(a, string));
   printf("a.len()\n => %zu\n",
-         a->_->len(a));
-  a->_->delete(a);
+         _(a, len));
+  _(a, delete);
   return 0;
 }
