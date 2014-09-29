@@ -15,17 +15,6 @@ Examples:
     array->_->len(array);
     hash->_->set(hash, key, value);
 
-# Underscore Syntax
-
-    #define _(instance, method, ...) instance->_->method(instance, ## __VA_ARGS__)
-
-    _(instance, method, arg1, arg2, ...);
-
-Examples:
-
-    _(array, len);
-    _(hash, set, key, value);
-
 # Avaiable Classes
 
 ## Object
@@ -42,11 +31,11 @@ Usage
 
 *   Call `class_name` method of foo.
 
-        puts(_(foo, class_name)); // => OObject
+        puts(foo->_->class_name(foo)); // => OObject
 
 *   Delete this instance.
 
-        _(foo, delete);
+        foo->_->delete(foo);
 
 ## String
 
@@ -62,13 +51,13 @@ Usage
 
 *   Call `class_name`, `string`, and `len` methods of foo.
 
-        puts(_(bar, class_name)); // => OString
-        puts(_(bar, string));     // => bar
-        printf("%zu", _(bar, len)); // => 3
+        puts(bar->_->class_name(bar)); // => OString
+        puts(bar->_->string(bar));     // => bar
+        printf("%zu", bar->_->len(bar)); // => 3
 
 *   Delete this instance.
 
-        _(bar, delete);
+        bar->_->delete(bar);
 
 # Development
 
